@@ -8,10 +8,12 @@ public class Health : MonoBehaviour
    
     public float currentHealth { get; private set; }
     private Animator anim;
+    private bool dead;
 
     private void Awake()
     {
         currentHealth = startingHealth;
+        anim = GetComponent<Animator>();
     }
     public void TakeDamage(float _damage)
     {
@@ -20,15 +22,23 @@ public class Health : MonoBehaviour
         if(currentHealth >0)
         {
             //player damaged;
+            anim.SetTrigger("hurt");
+            //Infinibility frames
         }
         else
         {
-            //player dies
+            if (!dead)
+            {
+                //player dies
+                anim.SetTrigger("hurt");
+                GetComponent<PlayerMovement>().enabled = false;
+                dead = true;
+            }
         }
     }
 
-    private void Update()
+    public void AddHealth(float _value)
     {
-        
+        currentHealth = Mathf.Clamp(currentHealth + _value, 0, startingHealth);
     }
 }
