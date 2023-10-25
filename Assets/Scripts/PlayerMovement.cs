@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //SerializeField lets me edit the variable in the unity app.
+    //Settingn up variables
     [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
     [SerializeField] private Transform groundCheck;
@@ -14,8 +16,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask roofLayer;
     [SerializeField] private TrailRenderer tr;
 
+    //Setting up the variable audio manager linked with the audio manager class.
+    AudioManager audioManager;
 
 
+    //UNUSED DASH 
     /*private bool canDash = true;
     [SerializeField] private bool isDashing;
     [SerializeField] private float dashingPower;
@@ -24,15 +29,17 @@ public class PlayerMovement : MonoBehaviour
     */
 
 
-
+    //A header creates a visual header in the unity app to make it more readable.
     [Header("Coyote Time")]
     private float coyoteTime = 0.2f;
     private float coyoteTimeCounter;
 
-    
+    //Storing a refernence to components and setting them to a variable.
     private Rigidbody2D body;
     private Animator anim;
     private BoxCollider2D boxCollider;
+
+    //Setting up variables
     private float horizontalInput;
     public float currentsize;
 
@@ -42,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
     //Awake is called when the scipt is being loaded and then the method is ran;
     private void Awake()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
         //GetComponent will get the Rigidbody2D/Animator and store it for references.
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -49,11 +58,7 @@ public class PlayerMovement : MonoBehaviour
         currentsize = 5;
        
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -88,9 +93,15 @@ public class PlayerMovement : MonoBehaviour
         //Checking to see what way the player is facing if they are facing left it will
         //change the sprite to look the other way.
         if (horizontalInput > 0.01f)
+        {
+           
             transform.localScale = new Vector3(currentsize, currentsize, 1);
+        }
         else if (horizontalInput < -0.01f)
+        {
+            
             transform.localScale = new Vector3(-(currentsize), currentsize, 1);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && coyoteTimeCounter > 0)
             Jump();
@@ -103,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && currentsize == 5)
         {
+            audioManager.PlaySFX(audioManager.shrink);
             speed = 9;
             currentsize = 2;
             transform.localScale = new Vector3(currentsize, currentsize, 1);
@@ -110,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift) && currentsize == 2 && isWall() == false && isRoof() == false)
         {
+            audioManager.PlaySFX(audioManager.shrink);
             speed = 14;
             currentsize = 5;
             transform.localScale = new Vector3(currentsize, currentsize, 1);
@@ -126,6 +139,7 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         body.velocity = new Vector2(body.velocity.x, jumpPower);
+        audioManager.PlaySFX(audioManager.jump);
         
        
     }
