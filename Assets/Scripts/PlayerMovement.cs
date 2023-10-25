@@ -103,12 +103,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && currentsize == 5)
         {
+            speed = 9;
             currentsize = 2;
             transform.localScale = new Vector3(currentsize, currentsize, 1);
            
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift) && currentsize == 2 && isWall() == false && isRoof() == false)
         {
+            speed = 14;
             currentsize = 5;
             transform.localScale = new Vector3(currentsize, currentsize, 1);
             
