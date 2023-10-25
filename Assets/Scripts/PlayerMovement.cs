@@ -14,12 +14,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask roofLayer;
     [SerializeField] private TrailRenderer tr;
 
+
+
     /*private bool canDash = true;
     [SerializeField] private bool isDashing;
     [SerializeField] private float dashingPower;
     [SerializeField] private float dashingTime = 0.2f;
     [SerializeField] private float dashingCooldown = 1f;
     */
+
 
 
     [Header("Coyote Time")]
