@@ -49,12 +49,14 @@ public class PlayerMovement : MonoBehaviour
     //Awake is called when the scipt is being loaded and then the method is ran;
     private void Awake()
     {
+        //Setting the AudioManger to a variable.
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
-        //GetComponent will get the Rigidbody2D/Animator and store it for references.
+        //GetComponent will get the Rigidbody2D/Animator/BoxCollider and store it for references.
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
+        //Storing the players current size
         currentsize = 5;
        
     }
@@ -63,32 +65,34 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //UNUSED DASHING CODE
         //If player is dashing locks out of other movements
         /*
         if(isDashing)
         {
             return;
         }
-
-
-
         if(Input.GetKeyDown(KeyCode.Mouse1) && canDash)
         {
             StartCoroutine(Dash());
         }
         */
         //This stores the HorizontalInput
+
         horizontalInput = Input.GetAxis("Horizontal");
 
+        //If player is grounded resets coyoteTime;
         if (isGrounded())
         {
             coyoteTimeCounter = coyoteTime;
         }
+        //If they are not grounded counts down. This gives the player a breif chance to jump after falling off an edge
         else
         {
             coyoteTimeCounter -= Time.deltaTime;
         }
 
+        //Sets the movement based on HorizontalInput. The HorizontalInput is * by the speed to control the player moving left or right. 
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
         //Checking to see what way the player is facing if they are facing left it will
         //change the sprite to look the other way.
@@ -103,18 +107,21 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(-(currentsize), currentsize, 1);
         }
 
+        //If the player clicks space and CoyoteTimeCOunter > 0 which means they are within the grace period of coyate time it will run the jump method.
         if (Input.GetKeyDown(KeyCode.Space) && coyoteTimeCounter > 0)
             Jump();
 
+        //Adds a weighted jump as the player stops going up if they let go of space
         if (Input.GetKeyUp(KeyCode.Space) && body.velocity.y > 0)
         { 
         body.velocity = new Vector2(body.velocity.x, body.velocity.y / 2);
         coyoteTimeCounter = 0f;//Prevents player from double jumping by spamming the jump button
         }
-
+        //Controlling my characters size. If size is ==5 (Big) they will shrink else they will grow
         if (Input.GetKeyDown(KeyCode.LeftShift) && currentsize == 5)
         {
             audioManager.PlaySFX(audioManager.shrink);
+            //Adjusting speed and size based on what mode the player is in 
             speed = 9;
             currentsize = 2;
             transform.localScale = new Vector3(currentsize, currentsize, 1);
@@ -136,34 +143,42 @@ public class PlayerMovement : MonoBehaviour
         anim.SetBool("Grounded", isGrounded());
     }
 
+    //Jump method
     private void Jump()
     {
+        //Updating the vertical velocity of my player. This lets my player jump.
         body.velocity = new Vector2(body.velocity.x, jumpPower);
+        //Playing a sound effect when I jump.
         audioManager.PlaySFX(audioManager.jump);
         
        
     }
-
+    //Checking if the player is grounded.
     private bool isGrounded()
     {
+        //Checking if player is in contact with ground by seeing if there is a collision with the circular area of the ground check and the ground layer.//0.2f controls the radius 
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
+    //Checking if player is near a wall
     private bool isWall()
     {
         return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayer);
     }
 
+    //Checking if player is near a roof.
     private bool isRoof()
     {
         return Physics2D.OverlapCircle(roofCheck.position, 0.2f, groundLayer);
     }
-
+    //UNUSED PLAYER ATTACK
+   /* 
     public bool canAttack()
     {
         return isGrounded();
-    }
+    }*/
 
+    //UNUSED PLAYER DASH 
     /*private IEnumerator Dash()
     {
         canDash = false;
