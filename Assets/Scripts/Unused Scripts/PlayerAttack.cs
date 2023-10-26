@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//UNUSED PLAYER ATTACK SCRIPT 
+//Reference video where I learned this Unity 2D Platformer for Complete Beginners - #4 SHOOTING by Pandemonium
+//LINK TO VIDEO https://www.youtube.com/watch?v=PUpC44Q64zY&list=PLgOEwFbvGm5o8hayFB6skAfa8Z-mw4dPV&index=4
 public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private float attackCooldown;

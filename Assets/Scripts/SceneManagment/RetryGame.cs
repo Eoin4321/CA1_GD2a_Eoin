@@ -7,6 +7,7 @@ public class RetryGame : MonoBehaviour
 {
     public void LoadGame()
     {
+        //Loads the main menu scene
         SceneManager.LoadScene("Main Menu");
     }    
 }

@@ -80,7 +80,8 @@ public class PlayerMovement : MonoBehaviour
         //This stores the HorizontalInput
 
         horizontalInput = Input.GetAxis("Horizontal");
-
+        //Video reference where I learned how to implement Coyote time. Coyote Time & Jump Buffering In Unity by bendux
+        //LINK https://www.youtube.com/watch?v=RFix_Kg2Di0
         //If player is grounded resets coyoteTime;
         if (isGrounded())
         {
@@ -127,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(currentsize, currentsize, 1);
            
         }
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && currentsize == 2 && isWall() == false && isRoof() == false)
+        else if (Input.GetKeyDown(KeyCode.LeftShift) && currentsize == 2)
         {
             audioManager.PlaySFX(audioManager.shrink);
             speed = 14;
@@ -156,17 +157,21 @@ public class PlayerMovement : MonoBehaviour
     //Checking if the player is grounded.
     private bool isGrounded()
     {
+        //Video I learned how to do this. Unity 2D Platformer for Complete Beginners - #3 WALL JUMPING by Pandemonium
+        //Link to video https://www.youtube.com/watch?v=_UBpkdKlJzE&list=PLgOEwFbvGm5o8hayFB6skAfa8Z-mw4dPV&index=3
         //Checking if player is in contact with ground by seeing if there is a collision with the circular area of the ground check and the ground layer.//0.2f controls the radius 
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
     //Checking if player is near a wall
+    //Unused isWall() method
     private bool isWall()
     {
+        
         return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayer);
     }
 
-    //Checking if player is near a roof.
+    //Unused isRoof() method
     private bool isRoof()
     {
         return Physics2D.OverlapCircle(roofCheck.position, 0.2f, groundLayer);

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JumpPad : MonoBehaviour
 {
+    //Setting up variable. Using SerializeField so I can edit the value in the unity app.
     [SerializeField] private float bounce = 20f;
 
     //Code referenced from How To Make 2D Jump Pads in Unity by bendux at LINK https://www.youtube.com/watch?v=0e3Ld6-RzIU

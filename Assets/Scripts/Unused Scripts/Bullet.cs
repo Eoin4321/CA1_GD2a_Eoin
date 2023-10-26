@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+//UNUSED BULLET SCRIPT.
+//Reference video Where I learned this Unity 2D Platformer for Complete Beginners - #4 SHOOTING By Pandemonium
+//LINK TO VIDEO https://www.youtube.com/watch?v=PUpC44Q64zY&list=PLgOEwFbvGm5o8hayFB6skAfa8Z-mw4dPV&index=4
 public class Bullet : MonoBehaviour
 {
      [SerializeField] private float speed;
